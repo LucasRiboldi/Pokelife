@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="960" height="540" viewBox="0 0 320 180">
+  <defs>
+    <g id="oak">
+      <path fill="#557e42" d="M1 24h6v-2h14v2h5v4h-5v2H7v-2H1z"/>
+      <path fill="#503f30" d="M10 17h7v9h-2v2h-5v-2H8v-2h2z"/>
+      <path fill="#956441" d="M11 17h3v9h-3z"/>
+      <path fill="#285439" d="M7 2h4V0h7v2h5v4h3v5h2v7h-4v3h-5v2H8v-2H3v-3H0v-7h2V6h5z"/>
+      <path fill="#397446" d="M7 3h5V1h6v2h4v4h3v8h-3v4h-6v2H8v-3H4v-2H2v-6h3V6h2z"/>
+      <path fill="#529250" d="M7 5h4V3h7v3h4v4h2v4h-5v3h-4v-2h-4v3H7v-4H4v-4h3z"/>
+      <path fill="#72a95d" d="M9 6h4V4h4v2h3v3h-4v3H9v2H6v-4h3z"/>
+      <path fill="#8cba6c" d="M10 6h5v2h-3v2H8V8h2z"/>
+      <path fill="#488349" d="M20 14h3v3h-3zM11 17h3v2h-3z"/>
+    </g>
+    <g id="fir">
+      <path fill="#557e42" d="M1 30h6v-2h12v2h5v4H1z"/>
+      <path fill="#694931" d="M10 21h5v12h-5z"/>
+      <path fill="#234b38" d="M11 0h3v4h2v4h3v4h2v4h-2v2h3v4h3v5h-3v2h-5v2H7v-2H2v-2H0v-4h3v-4h3v-3H4v-4h3V8h2V4h2z"/>
+      <path fill="#336d45" d="M11 3h3v5h3v4h3v3h-4v4h4v4h3v3h-8v2H7v-2H3v-3h4v-4h3v-4H6v-3h3V8h2z"/>
+      <path fill="#518951" d="M11 5h2v5h3v3h-5v2H7v-3h2V9h2zM11 18h4v3h4v3h-8v2H6v-3h3v-2h2z"/>
+      <path fill="#6fa45c" d="M10 11h3v2h-3zM11 21h3v2h-3z"/>
+    </g>
+    <g id="bush">
+      <path fill="#3a6740" d="M1 4h3V1h4v1h3v3h3v5H1z"/>
+      <path fill="#6ca353" d="M3 4h3V2h3v2h2v4H3z"/>
+      <path fill="#90b95d" d="M5 4h4v2H5z"/>
+    </g>
+    <g id="grass">
+      <path fill="#568345" d="M0 1h2v2h2V0h2v3h2V2h2v2H0z"/>
+      <path fill="#a0bd64" d="M3 3h2v1H3zM7 4h2v1H7z"/>
+    </g>
+    <g id="flowers">
+      <path fill="#51864a" d="M1 2h1v4H1zM4 1h1v4H4zM7 3h1v3H7z"/>
+      <path fill="#f5dd9e" d="M0 1h3v2H0zM6 2h3v2H6z"/>
+      <path fill="#e9ae85" d="M3 0h3v2H3z"/>
+    </g>
+    <g id="pebbles">
+      <path fill="#756f59" d="M1 2h2V0h4v2h2v3H1zM10 5h3v3h-3z"/>
+      <path fill="#b0a78a" d="M3 1h4v2H3zM11 5h2v1h-2z"/>
+    </g>
+  </defs>
+
+  <!-- Meadow and the darker forest floor around its edge -->
+  <rect width="320" height="180" fill="#78a151"/>
+  <path fill="#658f49" d="M0 0h320v24h-31v7h-42v12h-39v13h-53v-8h-34v11H96v8H68v14H48v27H34v40h18v32H0z"/>
+  <path fill="#8bae58" d="M49 129h13v-17h20V99h24v-9h25v-7h59v6h22v17h26v12h-8v29h-28v13h-28v13h-65v-8H79v-10H60v-13H49z"/>
+  <path fill="#6f984b" d="M0 155h39v6h34v7h27v12H0zM245 149h75v31h-92v-16h17zM41 91h17v-13h18v8H64v15H52v18H41z"/>
+  <path fill="#97b65e" d="M74 115h9v-9h12v-7h24v7h-9v8h-17v7H74zM133 98h10v-5h19v5h11v5h-40zM154 162h20v-5h20v5h-8v6h-32z"/>
+
+  <!-- Mountain plateau, rock faces, and the recessed cave mouth -->
+  <path fill="#56784a" d="M119 52h9V39h15V24h18V11h39V7h27v9h24v12h19v18h-8v17h-12v22h-10v10h-28v8h-44V92h-25V78h-16V65h-8z"/>
+  <path fill="#746d5e" d="M125 49h13V34h15V20h14V10h30V5h29v10h23v12h17v18h-11v17h-10v20h-11v10h-15v8h-33V87h-27V75h-18V62h-16z"/>
+  <path fill="#918878" d="M125 49h15V36h17V21h14V12h28V7h24v11h24v11h16v12h-16v10h-21v8h-31v7h-23v-6h-18v-8h-14v5h-15z"/>
+  <path fill="#a9a08a" d="M140 41h14V31h14V22h15V14h19V9h17v10h23v10h16v7h-14v9h-22v6h-28v8h-19v-7h-20v-6h-15z"/>
+  <path fill="#c0b398" d="M157 36h12V25h15V17h19v-5h13v9h15v7h10v8h-16v6h-24v7h-24v-5h-20z"/>
+  <path fill="#809552" d="M151 42h12v-4h9v7h-6v4h-15zM199 15h13v-3h4v8h12v5h-16v-3h-13zM229 37h13v-5h13v4h-11v8h-15zM129 53h14v5h9v6h-11v-4h-12zM237 63h8v12h-9v7h-8v-6h9z"/>
+  <path fill="#655f53" d="M141 63h15v4h-6v7h-9zM161 71h11v5h12v8h-10v-4h-13zM225 60h13v6h-8v12h-5zM239 46h13v6h-6v8h-7z"/>
+  <path fill="#615647" d="M182 96V82h4V72h6v-7h7v-4h13v4h8v6h6v9h4v13h-10v7h-32z"/>
+  <path fill="#b0a18a" d="M183 92V80h5v-9h7v-6h15v4h8v7h5v13h-6v-9h-5v-6h-13v4h-7v14z"/>
+  <path fill="#3b3530" d="M190 96V82h6v-7h6v-3h10v6h6v7h4v11z"/>
+  <path fill="#272a29" d="M194 95V84h5v-6h5v-3h7v6h5v6h3v8z"/>
+  <path fill="#61594b" d="M189 94h32v3h-8v3h-22v-2h-5z"/>
+  <path fill="#c3ad81" d="M189 98h25v3h-10v3h-17v-3h2z"/>
+
+  <!-- River banks and bright water ribbons -->
+  <path fill="#587b4b" d="M291 0h29v180h-85v-13h7v-14h12v-12h11v-18h5v-12h-7v-16h-8V76h6V60h11V45h7V25h12z"/>
+  <path fill="#bca779" d="M297 0h23v180h-79v-12h8v-14h12v-12h11v-18h5v-14h-7V94h-8V77h6V61h11V45h7V25h11z"/>
+  <path fill="#467e83" d="M302 0h18v180h-73v-11h8v-14h12v-13h11v-17h5v-16h-7V93h-8V78h6V63h11V46h7V26h10z"/>
+  <path fill="#4b9ca2" d="M309 0h11v180h-66v-9h8v-14h11v-12h12v-18h5v-19h-7V92h-8V80h6V65h11V48h7V28h10z"/>
+  <path fill="#62b6b3" d="M314 5h6v175h-54v-8h8v-11h11v-13h10v-18h4v-23h-6V91h-8v-9h6V69h10V52h7V31h6z"/>
+  <path fill="#8ad0c3" d="M299 54h12v2h-12zM285 79h12v2h-12zM277 87h9v2h-9zM295 98h14v2h-14zM301 115h12v2h-12zM291 136h13v2h-13zM278 152h15v2h-15zM264 169h14v2h-14zM308 161h12v2h-12zM313 24h7v2h-7z"/>
+  <path fill="#acdcca" d="M285 80h7v1h-7zM301 116h7v1h-7zM278 153h8v1h-8zM269 169h6v1h-6zM307 71h8v1h-8z"/>
+  <path fill="#6aa092" d="M266 92h8v1h-8zM279 107h8v1h-8zM277 130h7v1h-7zM252 168h9v1h-9z"/>
+
+  <!-- Walkable trail through the clearing, past the cave and along the shore -->
+  <path fill="none" stroke="#75934f" stroke-width="15" stroke-linejoin="round"
+        d="M104 140L127 129L152 121L175 113L199 107L206 100L221 109L234 120L229 137L215 148L188 152L159 150L132 159L104 156L89 146Z"/>
+  <path fill="none" stroke="#b6a067" stroke-width="11" stroke-linejoin="round"
+        d="M104 140L127 129L152 121L175 113L199 107L206 100L221 109L234 120L229 137L215 148L188 152L159 150L132 159L104 156L89 146Z"/>
+  <path fill="none" stroke="#c8b37a" stroke-width="7" stroke-linejoin="round"
+        d="M104 140L127 129L152 121L175 113L199 107L206 100L221 109L234 120L229 137L215 148L188 152L159 150L132 159L104 156L89 146Z"/>
+  <path fill="#e0c690" d="M99 140h4v1h-4zM124 130h4v1h-4zM144 123h5v1h-5zM177 113h4v1h-4zM196 108h4v1h-4zM219 110h4v1h-4zM230 124h4v1h-4zM211 148h4v1h-4zM183 152h5v1h-5zM153 152h5v1h-5zM113 157h4v1h-4z"/>
+
+  <!-- Ground details, then trees from back to front -->
+  <g>
+    <use xlink:href="#grass" x="63" y="107"/><use xlink:href="#grass" x="79" y="121"/>
+    <use xlink:href="#grass" x="113" y="114"/><use xlink:href="#grass" x="141" y="107"/>
+    <use xlink:href="#grass" x="169" y="128"/><use xlink:href="#grass" x="185" y="135"/>
+    <use xlink:href="#grass" x="149" y="137"/><use xlink:href="#grass" x="126" y="145"/>
+    <use xlink:href="#grass" x="202" y="119"/><use xlink:href="#grass" x="225" y="102"/>
+    <use xlink:href="#grass" x="244" y="121"/><use xlink:href="#grass" x="236" y="144"/>
+    <use xlink:href="#grass" x="209" y="161"/><use xlink:href="#grass" x="179" y="164"/>
+    <use xlink:href="#grass" x="141" y="171"/><use xlink:href="#grass" x="84" y="162"/>
+    <use xlink:href="#flowers" x="88" y="110"/><use xlink:href="#flowers" x="116" y="104"/>
+    <use xlink:href="#flowers" x="143" y="133"/><use xlink:href="#flowers" x="191" y="123"/>
+    <use xlink:href="#flowers" x="211" y="133"/><use xlink:href="#flowers" x="240" y="133"/>
+    <use xlink:href="#flowers" x="161" y="163"/><use xlink:href="#flowers" x="106" y="165"/>
+    <use xlink:href="#pebbles" x="172" y="93"/><use xlink:href="#pebbles" x="231" y="90"/>
+    <use xlink:href="#pebbles" x="247" y="111"/><use xlink:href="#pebbles" x="235" y="151"/>
+    <use xlink:href="#pebbles" x="65" y="144"/><use xlink:href="#pebbles" x="120" y="166"/>
+    <use xlink:href="#bush" x="104" y="78"/><use xlink:href="#bush" x="123" y="82"/>
+    <use xlink:href="#bush" x="56" y="125"/><use xlink:href="#bush" x="76" y="152"/>
+    <use xlink:href="#bush" x="245" y="98"/><use xlink:href="#bush" x="218" y="159"/>
+  </g>
+  <g>
+    <use xlink:href="#fir" x="-5" y="-10"/><use xlink:href="#oak" x="16" y="-9"/>
+    <use xlink:href="#fir" x="38" y="-10"/><use xlink:href="#oak" x="59" y="-10"/>
+    <use xlink:href="#fir" x="82" y="-9"/><use xlink:href="#oak" x="103" y="-7"/>
+    <use xlink:href="#fir" x="121" y="-12"/><use xlink:href="#oak" x="144" y="-14"/>
+    <use xlink:href="#fir" x="237" y="-12"/><use xlink:href="#oak" x="256" y="-9"/>
+    <use xlink:href="#fir" x="276" y="-10"/><use xlink:href="#oak" x="264" y="15"/>
+    <use xlink:href="#fir" x="255" y="33"/><use xlink:href="#oak" x="237" y="49"/>
+    <use xlink:href="#oak" x="92" y="21"/><use xlink:href="#fir" x="111" y="20"/>
+    <use xlink:href="#fir" x="72" y="25"/><use xlink:href="#oak" x="51" y="27"/>
+    <use xlink:href="#fir" x="29" y="24"/><use xlink:href="#oak" x="7" y="20"/>
+    <use xlink:href="#fir" x="-7" y="38"/><use xlink:href="#oak" x="17" y="47"/>
+    <use xlink:href="#fir" x="40" y="51"/><use xlink:href="#oak" x="61" y="50"/>
+    <use xlink:href="#fir" x="83" y="49"/><use xlink:href="#oak" x="105" y="51"/>
+    <use xlink:href="#oak" x="82" y="74"/><use xlink:href="#fir" x="62" y="70"/>
+    <use xlink:href="#oak" x="43" y="76"/><use xlink:href="#fir" x="20" y="75"/>
+    <use xlink:href="#oak" x="-6" y="69"/><use xlink:href="#fir" x="-4" y="94"/>
+    <use xlink:href="#oak" x="17" y="100"/><use xlink:href="#fir" x="35" y="101"/>
+    <use xlink:href="#oak" x="22" y="125"/><use xlink:href="#fir" x="1" y="120"/>
+    <use xlink:href="#oak" x="-8" y="147"/><use xlink:href="#fir" x="14" y="149"/>
+    <use xlink:href="#oak" x="36" y="145"/><use xlink:href="#fir" x="53" y="153"/>
+    <use xlink:href="#oak" x="73" y="166"/><use xlink:href="#fir" x="224" y="157"/>
+    <use xlink:href="#oak" x="203" y="169"/><use xlink:href="#fir" x="244" y="126"/>
+  </g>
+</svg>

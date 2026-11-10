@@ -1,0 +1,24 @@
+<Window
+    x:Class="TaskbarHabitat.Widget.StarterSelectionWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Taskbar Habitat — Escolha seu inicial">
+    <ScrollViewer>
+        <StackPanel Padding="24" Spacing="12">
+            <TextBlock Text="Escolha seu Pokémon inicial"
+                       FontSize="24"
+                       TextWrapping="Wrap"
+                       AutomationProperties.HeadingLevel="Level1" />
+            <TextBlock Text="Sua escolha será salva neste computador."
+                       TextWrapping="Wrap" />
+            <Button Content="Bulbasaur" Tag="1" Click="ChooseStarter" HorizontalAlignment="Stretch" />
+            <Button Content="Charmander" Tag="4" Click="ChooseStarter" HorizontalAlignment="Stretch" />
+            <Button Content="Squirtle" Tag="7" Click="ChooseStarter" HorizontalAlignment="Stretch" />
+            <InfoBar x:Name="SaveError"
+                     Severity="Error"
+                     IsClosable="False"
+                     Title="Não foi possível salvar"
+                     Message="Tente escolher novamente." />
+        </StackPanel>
+    </ScrollViewer>
+</Window>
