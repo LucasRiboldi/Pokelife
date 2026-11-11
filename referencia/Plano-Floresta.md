@@ -6,6 +6,6 @@ A opção B aprova colocar a Floresta de Viridian em volta do inicial na barra d
 
 A compilação Release passou sem avisos e os sete testes automatizados passaram. No Windows 11 build 26200, conferi a aparência com Bulbasaur, Charmander e Squirtle. Os três mantiveram o menu **Fechar widget** e reapareceram no cenário ao reabrir o jogo.
 
-[Captura da floresta](Floresta-de-Viridian-Windows11.png) · [Como abrir o jogo](Plano-Tela-Inicial.md#abrir-no-windows)
+[Como abrir o jogo](Plano-Tela-Inicial.md#abrir-no-windows)
 
 A opção B evoluiu para uma janela grande que abre automaticamente, com o Pokémon caminhando pelo cenário. [Habitat em janela grande](Plano-Habitat-Grande.md)

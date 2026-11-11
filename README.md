@@ -1,53 +1,44 @@
 # 🌿 PokeLife
 
-Um cantinho Pokémon para acompanhar sua rotina no Windows. Escolha seu companheiro e veja a Floresta de Viridian ganhar vida enquanto você usa o computador.
+Um cantinho Pokémon no seu desktop. Escolha um companheiro, abra a Floresta de Viridian e veja a criatura explorar enquanto você toca o dia.
 
-![Cenário do habitat](src/TaskbarHabitat.Widget/Assets/Habitats/viridian-valley.png)
+[![Compilação e testes no Windows](https://github.com/LucasRiboldi/Pokelife/actions/workflows/windows.yml/badge.svg?branch=main)](https://github.com/LucasRiboldi/Pokelife/actions/workflows/windows.yml)
 
-## Escolha seu companheiro
+![Prévia da Floresta de Viridian, com cabana, rio, caverna e uma grande árvore frutífera](docs/images/viridian.webp)
 
-<img src="src/TaskbarHabitat.Widget/Assets/Sprites/bulbasaur.png" width="96" alt="Bulbasaur"> <img src="src/TaskbarHabitat.Widget/Assets/Sprites/charmander.png" width="96" alt="Charmander"> <img src="src/TaskbarHabitat.Widget/Assets/Sprites/squirtle.png" width="96" alt="Squirtle">
+## O que dá para fazer hoje
 
-🌱 **Bulbasaur**, 🔥 **Charmander** ou 💧 **Squirtle**? A escolha é sua.
+- Escolher **Bulbasaur**, **Charmander** ou **Squirtle**. A escolha fica salva no computador. O Charmander tem a animação mais completa do protótipo.
+- Observar a criatura caminhar por destinos no mapa. A grade evita água e obstáculos. Pressione **F2** na janela do habitat para enxergar os bloqueios.
+- Minimizar para pausar a animação, abrir o jogo novamente para restaurar a mesma janela ou fechar pelo **X**. Ao voltar, o inicial salvo reaparece.
 
-O sonho é criar um habitat em pixel art, com gramado, árvores, rio e caverna. O Pokémon poderá passear, descansar e evoluir. Cuidar dele será opcional, com alimentação e brincadeiras acelerando seu progresso.
+O objetivo é ter uma criatura que ganha experiência e evolui com o tempo. Alimentar e brincar serão opcionais. **XP, evolução e progresso offline ainda estão no plano.**
 
-## O que já existe
+## Rodar no Windows
 
-- Escolha do inicial e persistência local em SQLite.
-- Protótipo de widget na barra de tarefas do Windows 11.
-- Janela de habitat e primeiros experimentos com cenário, água e animação do Charmander.
-- Testes automatizados para dados e partes da apresentação.
-
-O projeto está em desenvolvimento. XP passivo, evolução, cuidados e rotinas completas fazem parte do planejamento e ainda precisam ser implementados e validados.
-
-## Como executar
-
-Use Windows 11 x64 e o SDK .NET 10. Na pasta do projeto, execute no PowerShell:
+Você precisa de **Windows 11 x64**, **Git** e do **SDK do .NET 10** compatível com [global.json](global.json). Execute no PowerShell.
 
 ```powershell
+git clone https://github.com/LucasRiboldi/Pokelife.git
+Set-Location Pokelife
 dotnet build TaskbarHabitat.sln -c Release
-dotnet test TaskbarHabitat.sln -c Release
 & './src/TaskbarHabitat.Widget/bin/Release/net10.0-windows10.0.26100.0/win-x64/TaskbarHabitat.Widget.exe'
 ```
 
-O save fica em `%LOCALAPPDATA%\TaskbarHabitat\save.db`. Dependências são restauradas pelo .NET durante a compilação.
+O save SQLite fica em `%LOCALAPPDATA%\TaskbarHabitat\save.db`. A compilação baixa as dependências. Depois de compilado, o jogo roda localmente.
 
-## Explore o projeto
+## Desenvolver
 
-- [Visão e especificação do projeto](referencia/TaskbarHabitat-Relatorio.md)
-- [Análise das referências visuais](referencia/Analise-PokeHabitat.md)
-- [Plano do habitat](referencia/Plano-Habitat-Grande.md)
-- [Plano de animação do Charmander](referencia/Plano-Animacao-Charmander.md)
-- [Skills utilizadas e instalação](SKILLS_INSTALLED.md)
+| Pasta | Conteúdo |
+| --- | --- |
+| [`src/`](src/) | Modelo do save, dados e migrações SQLite, janela WinUI 3 e recursos do habitat. |
+| [`tests/`](tests/) | Testes de dados, navegação e animação, mais um teste da janela com save temporário. |
+| [`docs/`](docs/) | Documentação pública, créditos e prévia visual. |
+| [`referencia/`](referencia/) | Plano do produto, mapa editável no Tiled e ferramentas de exportação. |
 
-O código fica em `src/`, os testes em `tests/` e os planos em `referencia/`. Os arquivos de build e o save são locais.
+- [Contribuir, testar e editar o mapa](CONTRIBUTING.md)
+- [Estado atual e ponto de retomada](STATE.md)
+- [Plano mestre e cronograma](referencia/Plano-Mestre-PokeLife.md)
+- [Créditos e origem dos recursos](docs/ASSETS.md)
 
-## Próximas aventuras
-
-1. Implementar e testar XP passivo, tempo offline e evolução.
-2. Conectar caminhadas e descanso às animações do habitat.
-3. Acrescentar alimentação, brincadeiras e indicadores de status.
-4. Validar o widget em diferentes configurações do Windows e preparar uma versão distribuível.
-
-PokeLife é um protótipo pessoal de aprendizado inspirado em Pokémon. Pokémon e seus personagens pertencem aos respectivos titulares. Os sprites usados no protótipo incluem referências à [PokéAPI](https://github.com/PokeAPI/sprites).
+O PokeLife é um protótipo independente de aprendizado inspirado em Pokémon. A licença do código próprio está pendente.

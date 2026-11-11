@@ -1,14 +1,19 @@
-"""Gera as três camadas da Floresta de Viridian. Requer Pillow."""
+"""Gera o cenário, as peças e a prévia de Viridian. Requer Pillow."""
 
+import json
 from pathlib import Path
 from random import Random
 
 from PIL import Image, ImageDraw
 
 
+from viridian_arte import canopy, charmander_frames, cottage, fallen_log, fruits, meadow_piece, sway, trunk
+
+
 ASSETS = Path(__file__).resolve().parents[1] / "src/TaskbarHabitat.Widget/Assets/Habitats"
-SIZE = (384, 216)
-WATER_BOX = (248, 0, 384, 216)
+SIZE = (512, 288)
+WATER_BOX = (248, 0, 384, SIZE[1])
+CAMERA = {"x": 40, "y": 58, "width": 342, "height": 192}
 DISPLAY_SCALE = 3
 
 
@@ -42,96 +47,62 @@ def rock(draw, x, y, scale=1):
     face("#83935c", (-5, -3), (-2, -4), (0, -4), (-2, -2), (-5, -2))
 
 
-def tree(image, x, y, size, seed, pine=False):
-    rng = Random(seed)
-    draw = ImageDraw.Draw(image)
-    h = size
-    w = size // 2
-    polygon(draw, "#395942c0", (x-w//2, y+2), (x-2, y-2), (x+w+7, y-3),
-            (x+w+9, y+1), (x+w-2, y+5), (x-w//3, y+5))
-    polygon(draw, "#513b34", (x-7, y), (x-3, y-5), (x-4, y-h//2), (x+5, y-h//2),
-            (x+4, y-6), (x+8, y-1), (x+4, y+2), (x-5, y+2))
-    draw.line((x-2, y-18, x-2, y-4, x-5, y), fill="#aa7949", width=2)
-    if pine:
-        for level in range(3):
-            top = y-h + level*h//5
-            half = w * (level+2) // 5
-            polygon(draw, "#20483d", (x, top), (x+3, top+3), (x+half, top+h//2),
-                    (x+half-3, top+h//2+3), (x-half, top+h//2+3), (x-half, top+h//2))
-            polygon(draw, "#36724b", (x-1, top+4), (x+1, top+5), (x+4, top+h//2-4),
-                    (x-half+3, top+h//2), (x-half+3, top+h//2-3))
-            draw.line((x-half+6, top+h//2-4, x-3, top+h//2-5), fill="#64965a")
-        return
-
-    canopy = Image.new("RGBA", image.size)
-    foliage = ImageDraw.Draw(canopy)
-    for dx, dy, radius in ((-10, -19, 12), (9, -20, 13), (-15, -30, 12),
-                           (11, -33, 12), (0, -39, 14), (-5, -28, 15)):
-        cx, cy = x + dx*size//50, y + dy*size//50
-        r = max(4, radius*size//50)
-        polygon(foliage, "#244c3a", (cx-r, cy-2), (cx-r+3, cy-r//2), (cx-3, cy-r),
-                (cx+3, cy-r), (cx+r-2, cy-r//2), (cx+r, cy+2), (cx+r-3, cy+r//2),
-                (cx+3, cy+r-2), (cx-5, cy+r), (cx-r+2, cy+r//2))
-        polygon(foliage, rng.choice(("#3a6f46", "#427a4a", "#4a824a")),
-                (cx-r+2, cy-3), (cx-r+5, cy-r//2), (cx-2, cy-r+2), (cx+3, cy-r+2),
-                (cx+r-3, cy-r//2), (cx+r-2, cy), (cx+4, cy+r//2), (cx-4, cy+r-2),
-                (cx-r+3, cy+r//2))
-        polygon(foliage, rng.choice(("#699450", "#77a257", "#5e8f50")),
-                (cx-r+4, cy-3), (cx-r+6, cy-r//2), (cx-2, cy-r+2), (cx+3, cy-r+2),
-                (cx+r//2, cy-r//2), (cx+3, cy-2), (cx-2, cy-2), (cx-3, cy+1))
-        for _ in range(7):
-            a, b = cx+rng.randint(-r//2, r//3), cy+rng.randint(-r//2, 1)
-            if 0 <= a < SIZE[0] and 0 <= b < SIZE[1] and canopy.getpixel((a, b))[3]:
-                foliage.point((a, b), fill=rng.choice(("#86ab5b", "#588751", "#467646")))
-    image.alpha_composite(canopy)
-
-
 def draw_land():
-    base = Image.new("RGBA", SIZE, "#779c55")
+    base = Image.new("RGBA", SIZE, "#83ae57")
     d = ImageDraw.Draw(base)
-    polygon(d, "#5c854d", (0, 0), (175, 0), (157, 34), (118, 57), (106, 89),
+    polygon(d, "#63944d", (0, 0), (175, 0), (157, 34), (118, 57), (106, 89),
             (73, 119), (45, 126), (0, 152))
-    polygon(d, "#86a95d", (89, 137), (129, 112), (175, 103), (209, 119), (248, 125),
+    polygon(d, "#96bc61", (89, 137), (129, 112), (175, 103), (209, 119), (248, 125),
             (269, 154), (237, 177), (209, 193), (145, 205), (103, 200), (76, 172))
-    polygon(d, "#628b50", (0, 176), (55, 161), (82, 179), (124, 204), (174, 214),
+    polygon(d, "#6b9e54", (0, 176), (55, 161), (82, 179), (124, 204), (174, 214),
             (221, 203), (233, 216), (0, 216))
-    polygon(d, "#52764b", (322, 74), (384, 58), (384, 216), (315, 216),
+    polygon(d, "#61904d", (322, 74), (384, 58), (384, 216), (315, 216),
             (317, 185), (343, 159), (352, 115))
-    grass = ("#779c55", "#5c854d", "#86a95d", "#628b50", "#52764b")
+    polygon(d, "#96bc61", (62, 173), (116, 156), (173, 165), (215, 153),
+            (274, 158), (290, 188), (259, 218), (269, 249), (236, 273), (170, 275),
+            (101, 257), (69, 233), (52, 205))
+    polygon(d, "#6b9e54", (372, 0), (511, 0), (511, 287), (389, 287),
+            (381, 252), (399, 219), (422, 168), (396, 130), (386, 64))
+    polygon(d, "#63944d", (0, 197), (38, 208), (49, 241), (87, 262), (116, 287), (0, 287))
+    grass = ("#83ae57", "#63944d", "#96bc61", "#6b9e54", "#61904d")
     flecks(base, (0, 0, *SIZE), {rgba(color) for color in grass},
-           ("#719653", "#739a55", "#7da25b", "#8eae63", "#6e9555", "#799a56"), 5100, 24)
+           ("#7ca552", "#80aa55", "#8ab25b", "#9ec265", "#79a453", "#86ad5d"), 7400, 24)
 
-    # Ridge top and alternating faces set the height of the cave and the fall.
-    polygon(d, "#4c5546", (105, 95), (112, 68), (125, 55), (130, 36), (147, 20),
-            (175, 19), (188, 5), (222, 3), (241, 0), (352, 0), (369, 27),
-            (354, 57), (339, 71), (328, 99), (307, 117), (270, 114), (242, 120),
-            (219, 109), (199, 101), (173, 104), (148, 100), (125, 110))
-    polygon(d, "#8b806d", (107, 92), (118, 69), (138, 57), (151, 43), (178, 43),
-            (199, 32), (225, 35), (249, 27), (274, 29), (297, 42), (323, 33),
-            (349, 36), (335, 65), (323, 75), (311, 105), (288, 109), (269, 105),
-            (244, 114), (223, 103), (201, 96), (170, 97), (150, 94), (126, 103))
-    polygon(d, "#bbb18e", (111, 87), (121, 67), (137, 52), (141, 36), (153, 24),
-            (177, 24), (191, 11), (228, 7), (247, 0), (351, 0), (365, 26), (351, 44),
-            (329, 48), (316, 64), (289, 59), (265, 69), (242, 57), (216, 63),
-            (201, 57), (175, 65), (153, 61), (134, 80))
-    polygon(d, "#62894c", (135, 58), (145, 42), (146, 34), (157, 26), (179, 27),
-            (193, 15), (222, 12), (248, 0), (344, 0), (357, 22), (348, 34),
-            (326, 39), (315, 52), (292, 49), (268, 59), (247, 48), (224, 53),
-            (202, 49), (178, 58), (155, 54))
+    # Horizontal ledges expose a frontal rock wall below the upper grass.
+    polygon(d, "#4d4c42", (105,99),(109,81),(121,73),(121,54),(139,43),(139,24),
+            (164,14),(198,14),(212,0),(352,0),(366,20),(363,42),(348,53),
+            (347,74),(333,80),(333,98),(318,110),(289,115),(272,111),(253,117),
+            (233,110),(219,110),(204,104),(169,106),(152,103),(131,111),(115,108))
+    polygon(d, "#8b806d", (110,98),(114,84),(127,76),(128,55),(145,46),(146,25),
+            (164,17),(199,17),(216,1),(350,1),(361,21),(358,41),(343,51),
+            (341,72),(328,77),(327,96),(313,105),(290,111),(273,105),(253,113),
+            (234,105),(221,105),(203,98),(167,100),(151,97),(130,105),(116,103))
+    polygon(d, "#b9aa82", (114,89),(131,74),(131,53),(147,44),(147,25),(165,17),
+            (201,17),(215,0),(350,0),(360,23),(356,42),(339,52),(338,66),
+            (317,68),(311,63),(281,64),(274,70),(251,70),(246,63),(218,63),
+            (209,67),(183,67),(175,62),(151,62),(149,73),(137,77),(126,94))
+    polygon(d, "#73994a", (134,55),(151,44),(151,29),(167,21),(202,21),(216,0),
+            (347,0),(357,24),(351,41),(335,49),(332,59),(314,61),(306,56),
+            (283,57),(271,64),(252,64),(248,58),(218,58),(208,62),(184,62),
+            (175,57),(150,57),(144,63),(134,63))
+    d.line((151,56,175,56,184,61,208,61,218,57,248,57,252,63,271,63,283,56),
+           fill="#a6b963", width=2)
     for color, points in (
-        ("#726657", ((126, 76), (136, 73), (130, 91), (121, 97), (122, 86))),
-        ("#a39878", ((144, 66), (155, 61), (160, 63), (153, 80), (140, 86))),
-        ("#726657", ((204, 63), (219, 61), (215, 80), (224, 102), (210, 96), (201, 81))),
-        ("#a69a7b", ((222, 64), (238, 61), (247, 69), (240, 83), (243, 101), (230, 95))),
-        ("#706956", ((247, 73), (257, 70), (265, 76), (261, 89), (266, 106), (252, 111), (252, 92))),
-        ("#716959", ((315, 73), (329, 67), (320, 91), (308, 108), (309, 90))),
+        ("#726657", ((127,80),(136,75),(135,92),(129,92),(127,100),(119,102),(121,88))),
+        ("#ab9a73", ((139,76),(148,71),(151,64),(161,65),(160,80),(153,81),(152,91),(140,95))),
+        ("#6c6153", ((205,67),(215,66),(216,81),(221,83),(222,104),(211,101),(207,92))),
+        ("#a69a7b", ((222,65),(238,65),(240,75),(236,83),(239,101),(228,100),(225,89))),
+        ("#706354", ((246,72),(254,74),(269,73),(269,86),(263,88),(265,103),(257,111),
+                     (250,109),(250,95),(245,92))),
+        ("#a39472", ((273,74),(281,67),(288,68),(290,84),(284,84),(286,105),(277,108),(274,93))),
+        ("#706354", ((319,73),(331,69),(331,79),(326,81),(325,94),(313,104),(309,102),(315,88))),
     ):
         polygon(d, color, *points)
     flecks(base, (105, 0, 365, 118),
-           {rgba(c) for c in ("#bbb18e", "#8b806d", "#726657", "#a39878", "#62894c")},
-           ("#9d9078", "#a6987e", "#766e5c", "#8f876b", "#66834f"), 980, 42)
-    for x, y, length in ((134,74,13), (148,57,16), (195,54,13), (219,57,24),
-                         (242,57,18), (265,64,17), (330,51,16), (342,44,15)):
+           {rgba(c) for c in ("#b9aa82", "#8b806d", "#726657", "#6c6153", "#73994a")},
+           ("#a49270", "#a6987e", "#766e5c", "#8f876b", "#66834f"), 980, 42)
+    for x, y, length in ((134,74,13), (148,65,16), (195,64,13), (219,61,24),
+                         (242,61,18), (265,68,17), (330,62,16), (342,55,15)):
         d.line((x+5, y-3, x, y, x-1, y+length), fill="#626e48")
         d.line((x+4, y-3, x-2, y+2, x-2, y+length-2), fill="#778d51", width=2)
         for offset in range(2, length-1, 5):
@@ -140,27 +111,17 @@ def draw_land():
         d.line((x+4, y, x+1, y+4, x+1, y+8, x-2, y+11), fill="#736b59")
 
     # Cave lintel, interior and stone sill.
-    polygon(d, "#675e50", (147, 96), (150, 84), (157, 71), (167, 66), (181, 65),
-            (193, 73), (201, 85), (206, 98), (190, 101), (160, 100))
-    polygon(d, "#c6b795", (148, 93), (153, 82), (159, 72), (170, 67), (183, 68),
-            (190, 73), (190, 77), (177, 73), (168, 75), (158, 84), (156, 94))
-    polygon(d, "#252e31", (154, 96), (159, 85), (166, 77), (172, 74), (181, 74),
-            (188, 78), (195, 86), (199, 96), (192, 99), (160, 99))
+    polygon(d, "#675e50", (147,97),(147,86),(153,85),(153,76),(161,76),(161,69),
+            (187,68),(187,73),(195,73),(196,81),(201,82),(201,91),(206,92),(206,99),
+            (190,101),(160,100))
+    polygon(d, "#c6b795", (148,94),(148,87),(154,87),(154,77),(162,77),(162,71),
+            (185,70),(185,75),(167,75),(167,81),(160,81),(160,89),(155,89),(155,96))
+    polygon(d, "#252e31", (154,96),(154,90),(160,90),(160,82),(167,82),(167,76),
+            (185,75),(185,79),(192,79),(192,86),(197,86),(197,92),(200,92),(200,98),(160,99))
     polygon(d, "#38403a", (158, 96), (171, 90), (183, 89), (195, 95), (193, 99), (160, 99))
     polygon(d, "#a39777", (156, 98), (172, 97), (185, 98), (199, 97), (199, 100),
             (185, 104), (165, 103), (156, 101))
 
-    # Split trails fade into the meadow. The Pokémon also crosses open grass.
-    for path in (
-        [(72,155),(95,154),(119,143),(137,130),(154,115),(166,106),(179,102)],
-        [(157,114),(178,114),(199,111),(220,122),(242,132),(261,142)],
-        [(113,146),(108,158),(117,169),(134,177),(150,183),(171,181)],
-    ):
-        for width, color in ((11, "#91a363"), (8, "#b6ab70"), (5, "#c8b781")):
-            d.line(path, fill=color, width=width, joint="curve")
-    flecks(base, (70, 100, 270, 194),
-           {rgba(c) for c in ("#b6ab70", "#c8b781", "#91a363")},
-           ("#a89d68", "#d4c48d", "#bdb27c"), 460, 5)
     return base
 
 
@@ -168,73 +129,40 @@ def draw_water(base):
     d = ImageDraw.Draw(base)
     downstream = ((282, 106), (299, 99), (320, 105), (335, 116), (340, 131),
                   (328, 148), (329, 162), (342, 177), (338, 194), (318, 215),
-                  (311, 216), (264, 216), (270, 203), (290, 189), (292, 176),
+                  (318, 235), (334, 253), (335, 268), (325, 288), (277, 288),
+                  (289, 268), (286, 253), (271, 234), (264, 216), (270, 203), (290, 189), (292, 176),
                   (278, 163), (274, 150), (273, 139), (262, 130), (265, 117))
     upstream = ((306, 0), (333, 0), (329, 13), (310, 26), (309, 38), (320, 49),
                 (318, 60), (310, 68), (282, 70), (278, 59), (288, 50), (294, 40),
                 (292, 24), (295, 12))
     polygon(d, "#9f9768", *downstream)
-    polygon(d, "#377d7d", (282, 111), (300, 103), (319, 109), (332, 119), (335, 131),
-            (323, 149), (325, 164), (337, 178), (333, 193), (314, 214), (307, 216),
-            (269, 216), (274, 205), (294, 191), (297, 176), (283, 161), (279, 150),
+    polygon(d, "#398f9a", (282, 111), (300, 103), (319, 109), (332, 119), (335, 131),
+            (323, 149), (325, 164), (337, 178), (333, 193), (314, 214), (314, 237),
+            (330, 254), (330, 267), (320, 288), (282, 288), (293, 269), (290, 251),
+            (275, 232), (269, 216), (274, 205), (294, 191), (297, 176), (283, 161), (279, 150),
             (278, 137), (268, 129), (270, 120))
-    polygon(d, "#236477", (283, 118), (306, 110), (323, 116), (330, 127), (320, 142),
-            (317, 151), (322, 169), (331, 180), (327, 192), (308, 214), (278, 216),
+    polygon(d, "#285f8c", (283, 118), (306, 110), (323, 116), (330, 127), (320, 142),
+            (317, 151), (322, 169), (331, 180), (327, 192), (308, 214), (309, 239),
+            (324, 256), (324, 267), (315, 288), (289, 288), (299, 270), (297, 252), (283, 232), (278, 216),
             (283, 208), (300, 193), (303, 174), (290, 158), (285, 145), (286, 135), (276, 127))
-    polygon(d, "#388183", *upstream)
-    polygon(d, "#2b6e7e", (313, 0), (328, 0), (322, 13), (304, 24), (303, 40),
+    polygon(d, "#489ca0", *upstream)
+    polygon(d, "#326c94", (313, 0), (328, 0), (322, 13), (304, 24), (303, 40),
             (314, 50), (312, 61), (287, 66), (287, 59), (299, 46), (299, 26), (301, 13))
     waterfall = ((283, 66), (300, 65), (315, 60), (317, 67), (314, 77),
                  (315, 91), (316, 110), (323, 119), (311, 125), (288, 123),
                  (274, 119), (281, 111), (283, 89))
-    polygon(d, "#64bcc0", *waterfall)
-    polygon(d, "#3f95a3", (285, 68), (290, 68), (292, 109), (288, 118),
+    polygon(d, "#63bdd2", *waterfall)
+    polygon(d, "#4696ba", (285, 68), (290, 68), (292, 109), (288, 118),
             (280, 119), (284, 104))
-    polygon(d, "#87d6cd", (292, 69), (302, 66), (303, 78), (300, 95), (302, 112),
+    polygon(d, "#99dddc", (292, 69), (302, 66), (303, 78), (300, 95), (302, 112),
             (306, 119), (293, 121), (295, 112), (293, 97))
-    polygon(d, "#438f9e", (308, 66), (315, 63), (313, 86), (315, 110), (319, 118),
+    polygon(d, "#468ba8", (308, 66), (315, 63), (313, 86), (315, 110), (319, 118),
             (308, 120), (306, 111), (307, 95))
     polygon(d, "#b5e7d3", (283, 67), (292, 65), (300, 65), (309, 62), (315, 60),
             (315, 63), (307, 66), (302, 67), (290, 69), (283, 69))
-    polygon(d, "#9bded3", (275, 119), (282, 115), (290, 117), (297, 115), (304, 116),
+    polygon(d, "#b0e8df", (275, 119), (282, 115), (290, 117), (297, 115), (304, 116),
             (314, 115), (322, 119), (320, 122), (308, 124), (291, 124), (281, 122))
     return waterfall
-
-
-def decorate(base, water_colors):
-    d = ImageDraw.Draw(base)
-    rng = Random(73)
-    for x, y in ((126, 97), (135, 87), (145, 109), (211, 99), (230, 107), (251, 112),
-                 (266, 116), (263, 126), (275, 140), (279, 159), (282, 175), (273, 199),
-                 (331, 146), (341, 173), (331, 201), (255, 177), (204, 153), (109, 115),
-                 (80, 133), (177, 191), (68, 192), (117, 202), (301, 148), (312, 180)):
-        rock(d, x, y, 2 if (x, y) in ((251,112), (331,146), (282,175)) else 1)
-    for _ in range(240):
-        x, y = rng.randrange(1, 381), rng.randrange(16, 215)
-        if base.getpixel((x, y)) in water_colors or not (
-            x < 105 or y > 121 and x < 261 or y < 50 and x < 275 or x > 345
-        ):
-            continue
-        r, g, b, _ = base.getpixel((x, y))
-        if g < r + 6 or g < b + 24:
-            continue
-        d.line((x, y, x, y-2, x-1, y-3), fill="#4f7948")
-        d.line((x+1, y, x+2, y-2), fill="#a7b96b")
-        if rng.randrange(5) == 0:
-            d.point((x-1, y-3), fill=rng.choice(("#f7e1aa", "#f3cb72", "#e9a487")))
-    for x, y in ((96,126),(125,159),(158,144),(194,138),(229,148),
-                 (153,194),(211,182),(236,174),(251,167),(79,143)):
-        for _ in range(6):
-            fx, fy = x+rng.randrange(-5,6), y+rng.randrange(-4,5)
-            d.line((fx, fy, fx, fy-3), fill="#577a45")
-            d.line((fx-1, fy-3, fx+1, fy-3), fill=rng.choice(("#f4dc92", "#e4ac83", "#e7dfa5")))
-    for i, (x, y, size) in enumerate(((3,33,46),(26,39,47),(48,32,45),(78,28,55),
-            (102,45,53),(125,31,45),(148,18,40),(173,16,45),(224,16,45),(255,14,45),
-            (274,25,45),(350,28,53),(379,40,56),(4,79,61),(29,76,45),(55,68,54),
-            (80,61,43),(105,72,49),(16,115,60),(47,105,52),(71,95,49),
-            (88,118,47),(372,83,55),(354,111,46),(376,134,58),(353,158,47),
-            (15,156,57),(45,141,50),(6,191,51),(38,195,52),(373,204,53))):
-        tree(base, x, y, size, 120+i, pine=i % 4 == 0)
 
 
 def water_atlas(base, water_colors, waterfall):
@@ -242,8 +170,8 @@ def water_atlas(base, water_colors, waterfall):
     width, height = right-left, bottom-top
     atlas = Image.new("RGBA", (width*4, height*2))
     rng = Random(123)
-    currents = [(rng.randrange(269, 338), rng.randrange(5, 217), rng.randrange(3, 11))
-                for _ in range(190)]
+    currents = [(rng.randrange(269, 338), rng.randrange(5, SIZE[1]), rng.randrange(3, 11))
+                for _ in range(270)]
     strands = [(rng.randrange(285, 315), rng.randrange(0, 48), rng.randrange(3, 13))
                for _ in range(60)]
     mask = Image.new("1", SIZE)
@@ -283,18 +211,162 @@ def save_layer(image, name):
     )
 
 
+def make_objects(terrain):
+    pieces = {}
+    objects = []
+    rng = Random(73)
+
+    def add(name, frames):
+        pieces[name] = frames
+        width, height = frames[0].size
+        strip = Image.new("RGBA", (width * len(frames), height))
+        for index, frame in enumerate(frames):
+            assert frame.size == (width, height), name
+            strip.paste(frame, (index * width, 0))
+        save_layer(strip, f"Viridian/{name}.png")
+
+    def place(name, x, y, depth, phase=0, frame_ms=0):
+        width, height = pieces[name][0].size
+        assert 0 <= phase < len(pieces[name]) and (frame_ms > 0) == (len(pieces[name]) > 1), name
+        objects.append(dict(file=f"Viridian/{name}.png", x=x, y=y, width=width, height=height,
+                            depth=depth, frames=len(pieces[name]), phase=phase, frameMs=frame_ms))
+
+    def wind(name, art, foot):
+        add(name, [sway(art, lean, foot) for lean in (0, 1, 2, 1)])
+
+    palettes = (
+        ("#254c39", "#3a723d", "#568d3c", "#77a949", "#99bf54"),
+        ("#264a39", "#3d6b3f", "#5b9445", "#86af4d", "#a2bf59"),
+        ("#2b5338", "#4c793e", "#70a544", "#9abb50", "#b9ce60"),
+    )
+    tree_sizes = (50, 58, 64)
+    for i, (size, palette) in enumerate(zip(tree_sizes, palettes)):
+        add(f"tronco-{i}", [trunk(size)])
+        wind(f"copa-{i}", canopy(size, palette, 30+i), size-11)
+
+    add("tronco-frutifera", [trunk(96)])
+    wind("copa-frutifera", canopy(96, palettes[2], 39), 85)
+    wind("frutos", fruits(), 85)
+    add("casa", [cottage()])
+    add("tronco-caido", [fallen_log()])
+    for name, scale in (("pedra", 1), ("rocha", 2)):
+        art = Image.new("RGBA", (16 * scale, 12 * scale))
+        rock(ImageDraw.Draw(art), 8 * scale, 8 * scale, scale)
+        add(name, [art])
+    for kind, name in (("grass", "grama"), ("flower", "flores"), ("shrub", "arbusto")):
+        add(name, [meadow_piece(kind, lean) for lean in (0, 1, 2, 1)])
+
+    def tree(x, y, variant, phase):
+        size = tree_sizes[variant]
+        depth = y * 4
+        place(f"tronco-{variant}", x-size//2, y-size//2+6, depth)
+        place(f"copa-{variant}", x-size//2, y-size, depth+1, phase, 205 + variant*35)
+
+    forest = (
+        (2,39),(31,32),(63,39),(93,36),(118,27),(156,18),(187,20),(226,17),(258,14),
+        (279,24),(355,29),(380,42),(411,35),(441,29),(474,35),(504,28),
+        (5,73),(37,75),(66,68),(96,61),(119,56),(372,80),(403,71),(437,68),(478,72),(509,65),
+        (5,111),(36,108),(61,98),(400,111),(431,101),(465,111),(503,110),
+        (2,148),(28,145),(369,135),(408,150),(446,143),(475,153),(511,146),
+        (5,184),(36,178),(382,176),(414,190),(454,181),(488,192),(513,184),
+        (9,222),(36,210),(394,210),(433,227),(470,220),(501,223),
+        (4,264),(38,254),(67,265),(370,246),(403,258),(441,268),(481,259),(512,262),
+        (8,296),(52,298),(90,300),(134,301),(209,307),(257,306),(369,300),(415,306),(461,301),(502,299),
+    )
+    for x, y in forest:
+        tree(x, y, rng.randrange(3), rng.randrange(4))
+
+    place("casa", 53, 75, 153*4)
+    place("tronco-frutifera", 185, 148, 190*4)
+    place("copa-frutifera", 185, 94, 190*4+1, 1, 250)
+    place("frutos", 185, 94, 190*4+2, 1, 250)
+    place("tronco-caido", 51, 222, 235*4)
+    place("tronco-caido", 350, 187, 200*4)
+    for i, (x, y) in enumerate(((133,98),(211,101),(252,117),(267,131),(277,156),(282,174),
+                               (270,196),(280,239),(296,271),(337,151),(349,178),(349,206),
+                               (336,240),(333,270),(66,202),(80,230),(134,263),(173,255),
+                               (241,254),(245,192),(391,227))):
+        name = "rocha" if i % 4 == 0 else "pedra"
+        width, height = pieces[name][0].size
+        place(name, x-width//2, y-height+3, y*4)
+
+    for i, (x, y) in enumerate(((47,167),(64,172),(113,159),(136,177),(200,187),
+                               (245,164),(278,174),(255,239),(225,250),(195,266),
+                               (104,250),(78,209),(76,182),(363,155),(364,216),(353,254))):
+        place("arbusto", x-9, y-12, y*4, i%4, 230+i%5*30)
+
+    meadow = {rgba(color) for color in ("#83ae57", "#96bc61", "#6b9e54", "#63944d", "#61904d",
+                                        "#7ca552", "#80aa55", "#8ab25b", "#9ec265", "#79a453", "#86ad5d")}
+    for y in range(113, 285, 12):
+        for x in range(10, 510, 15):
+            px, py = x + rng.randrange(-4, 5), y + rng.randrange(-4, 5)
+            if terrain.getpixel((px, py)) not in meadow or (60 < px < 140 and py < 158):
+                continue
+            if rng.randrange(5) == 0:
+                continue
+            kind = "flores" if rng.randrange(6) == 0 else "grama"
+            place(kind, px-9, py-12, 1, rng.randrange(4), rng.randrange(150, 285, 15))
+    return pieces, objects
+
+
+def compose_preview(terrain, water, pieces, objects, frame, pokemon):
+    preview = terrain.copy()
+    width, height = WATER_BOX[2] - WATER_BOX[0], SIZE[1]
+    x, y = frame % 4 * width, frame // 4 * height
+    preview.alpha_composite(water.crop((x, y, x+width, y+height)), (WATER_BOX[0], 0))
+    foot_x, foot_y = 166 + frame * 3, 199 + frame
+    actors = sorted(objects, key=lambda item: item["depth"])
+    split = next((i for i, piece in enumerate(actors) if piece["depth"] > foot_y * 4 + 3), len(actors))
+    for piece in actors[:split]:
+        draw_piece(preview, pieces, piece, frame)
+    ImageDraw.Draw(preview).ellipse((foot_x-6, foot_y-1, foot_x+6, foot_y+2), fill="#688a4e")
+    preview.alpha_composite(pokemon[4 + frame % 4].transpose(Image.Transpose.FLIP_LEFT_RIGHT),
+                            (foot_x-16, foot_y-28))
+    for piece in actors[split:]:
+        draw_piece(preview, pieces, piece, frame)
+    return preview.convert("RGB")
+
+
+def draw_piece(preview, pieces, item, frame):
+    variants = pieces[Path(item["file"]).stem]
+    index = ((frame * 110 // item["frameMs"] + item["phase"]) % len(variants)
+             if item["frameMs"] else 0)
+    preview.alpha_composite(variants[index], (item["x"], item["y"]))
+
+
 def main():
-    base = draw_land()
-    waterfall = draw_water(base)
-    water_colors = {rgba(c) for c in ("#377d7d", "#236477", "#388183", "#2b6e7e")}
-    decorate(base, water_colors)
-    foreground = Image.new("RGBA", SIZE)
-    for seed, (x, y, size) in enumerate(((10,218,60), (61,211,50), (91,222,56),
-                                         (207,226,50), (354,214,62), (384,212,50))):
-        tree(foreground, x, y, size, 301+seed, pine=seed in (0, 2, 5))
-    save_layer(base.convert("RGB"), "viridian-valley.png")
-    save_layer(foreground, "viridian-foreground.png")
-    save_layer(water_atlas(base, water_colors, waterfall), "viridian-water.png")
+    left, top = CAMERA["x"], CAMERA["y"]
+    width, height = CAMERA["width"], CAMERA["height"]
+    assert 0 <= left < left + width <= SIZE[0] and 0 <= top < top + height <= SIZE[1]
+    (ASSETS / "Viridian").mkdir(exist_ok=True)
+    terrain = draw_land()
+    waterfall = draw_water(terrain)
+    water_colors = {rgba(c) for c in ("#398f9a", "#285f8c", "#489ca0", "#326c94")}
+    water = water_atlas(terrain, water_colors, waterfall)
+    pieces, objects = make_objects(terrain)
+    (ASSETS / "Viridian" / "layout.json").write_text(
+        '{\n  "camera": ' + json.dumps(CAMERA) + ',\n  "objects": [\n'
+        + ",\n".join("    " + json.dumps(item) for item in objects) + "\n  ]\n}\n", encoding="utf-8")
+
+    pokemon = charmander_frames()
+    atlas = Image.new("RGBA", (128, 160))
+    for i, frame in enumerate(pokemon):
+        atlas.paste(frame, (i % 4 * 32, i // 4 * 32))
+    atlas.resize((atlas.width * DISPLAY_SCALE, atlas.height * DISPLAY_SCALE), Image.Resampling.NEAREST).save(
+        ASSETS.parent / "Sprites" / "charmander-habitat.png", optimize=True)
+    save_layer(terrain.convert("RGB"), "viridian-valley.png")
+    save_layer(water, "viridian-water.png")
+
+    crop = (left, top, left + width, top + height)
+    preview = [compose_preview(terrain, water, pieces, objects, i, pokemon).crop(crop) for i in range(8)]
+    preview[0].resize((width * DISPLAY_SCALE, height * DISPLAY_SCALE), Image.Resampling.NEAREST).save(
+        Path(__file__).with_name("Viridian-Viva.png"), optimize=True)
+    preview[0].save(Path(__file__).with_name("Viridian-Cachoeira.gif"), save_all=True,
+                    append_images=preview[1:], duration=110, loop=0, optimize=True)
+    sequence = pokemon[:12] + [pokemon[i] for i in (12, 15, 16, 17, 18, 19, 17, 16, 15, 12)]
+    enlarged = [frame.resize((128, 128), Image.Resampling.NEAREST) for frame in sequence]
+    enlarged[0].save(Path(__file__).with_name("Charmander-Animacao.gif"), save_all=True,
+                     append_images=enlarged[1:], duration=155, loop=0, disposal=2)
 
 
 if __name__ == "__main__":

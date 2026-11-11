@@ -1,6 +1,6 @@
 # Referência visual e de animação para o PokeLife
 
-Análise dos nove vídeos de Ronald Brenner Dev fornecidos na conversa, cerca de 14 minutos e 33 segundos de material. A revisão cobriu amostras ao longo de cada vídeo e sequências de quadros próximos nas cenas de caminhada, alimentação e sono. Os tempos indicam a posição dentro do arquivo. [Prancha de cenas](PokeHabitat-Quadros-de-Referencia.jpg) · [Perfil do autor](https://www.instagram.com/ronaldbrennerdev/)
+Análise dos nove vídeos de Ronald Brenner Dev, cerca de 14 minutos e 33 segundos de material. A revisão cobriu amostras ao longo de cada vídeo e sequências de quadros próximos nas cenas de caminhada, alimentação e sono. Os tempos indicam a posição dentro do arquivo. [Perfil do autor](https://www.instagram.com/ronaldbrennerdev/)
 
 ## Como o habitat deve funcionar
 

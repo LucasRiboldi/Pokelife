@@ -4,7 +4,7 @@ internal static class ViridianWater
 {
     public const int Left = 248;
     public const int Width = 136;
-    public const int Height = 216;
+    public const int Height = 288;
     public const int Columns = 4;
     public const int Rows = 2;
 

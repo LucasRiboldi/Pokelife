@@ -1,9 +1,10 @@
 using System.Diagnostics;
-using Deskband11Lib.WinUI;
 using Microsoft.Data.Sqlite;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Windows.AppLifecycle;
 using TaskbarHabitat.Data;
 using Windows.Graphics;
 
@@ -11,18 +12,19 @@ namespace TaskbarHabitat.Widget;
 
 public partial class App : Application
 {
-    private readonly string saveDirectory = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TaskbarHabitat");
+    private readonly string saveDirectory = Environment.GetEnvironmentVariable("POKELIFE_SAVE_DIRECTORY")
+        ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TaskbarHabitat");
     private readonly ISpriteProvider sprites = new PrototypeSpriteProvider();
     private Window? window;
-    private HabitatWindow? desktopHabitat;
 
     public App()
     {
         InitializeComponent();
+        var dispatcher = DispatcherQueue.GetForCurrentThread();
+        AppInstance.GetCurrent().Activated += (_, _) => dispatcher.TryEnqueue(RestoreWindow);
     }
 
-    protected override async void OnLaunched(LaunchActivatedEventArgs args)
+    protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         string? starterName;
         try
@@ -48,10 +50,9 @@ public partial class App : Application
         }
 
         ShowDesktopHabitat(starterName);
-        await ShowTaskbarAsync(starterName);
     }
 
-    private async void ChooseStarter(StarterSelectionWindow selection, int starterId)
+    private void ChooseStarter(StarterSelectionWindow selection, int starterId)
     {
         var controls = (Control)selection.Content;
         controls.IsEnabled = false;
@@ -77,52 +78,20 @@ public partial class App : Application
         }
 
         ShowDesktopHabitat(starterName);
-        if (selection.IsWindowAlive())
-            selection.Close();
-        await ShowTaskbarAsync(starterName);
+        selection.Close();
     }
 
     private void ShowDesktopHabitat(string starterName)
     {
-        if (desktopHabitat is null)
-        {
-            desktopHabitat = new HabitatWindow(starterName, sprites);
-            desktopHabitat.Closed += (_, _) => desktopHabitat = null;
-        }
-
-        if (desktopHabitat.AppWindow.Presenter is OverlappedPresenter { State: OverlappedPresenterState.Minimized } presenter)
-            presenter.Restore();
-        desktopHabitat.Activate();
+        window = new HabitatWindow(starterName, sprites);
+        window.Activate();
     }
 
-    private async Task ShowTaskbarAsync(string starterName)
+    private void RestoreWindow()
     {
-        MainWindow? habitat = null;
-        try
-        {
-            habitat = new MainWindow(starterName, sprites, () => ShowDesktopHabitat(starterName));
-            window = habitat;
-            await habitat.Host.AttachWhenLayoutReadyAsync().WaitAsync(TimeSpan.FromSeconds(15));
-            habitat.Host.TaskbarWindowRecreationRequired += async (_, _) =>
-            {
-                if (!ReferenceEquals(window, habitat))
-                    return;
-
-                habitat.Host.Dispose();
-                await ShowTaskbarAsync(starterName);
-                if (habitat.IsWindowAlive())
-                    habitat.Close();
-            };
-            habitat.Activate();
-        }
-        catch (Exception error) when (error is InvalidOperationException or TimeoutException)
-        {
-            Trace.TraceError(error.ToString());
-            if (desktopHabitat is null)
-                ShowStatus("Barra de tarefas indisponível", $"Pokémon inicial: {starterName}");
-            if (habitat?.IsWindowAlive() == true)
-                habitat.Close();
-        }
+        if (window?.AppWindow.Presenter is OverlappedPresenter { State: OverlappedPresenterState.Minimized } presenter)
+            presenter.Restore();
+        window?.Activate();
     }
 
     private SqliteConnection OpenSave()

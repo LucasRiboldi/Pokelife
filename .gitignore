@@ -7,3 +7,8 @@ TestResults/
 *.db-shm
 *.db-wal
 *.db-journal
+__pycache__/
+.venv/
+.agents/
+.claude/
+referencia/pokesprite-master/

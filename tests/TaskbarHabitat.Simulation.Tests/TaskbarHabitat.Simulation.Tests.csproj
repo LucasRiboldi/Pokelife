@@ -19,6 +19,9 @@
     <ProjectReference Include="../../src/TaskbarHabitat.Data/TaskbarHabitat.Data.csproj" />
     <Compile Include="../../src/TaskbarHabitat.Widget/CharmanderAnimation.cs" Link="CharmanderAnimation.cs" />
     <Compile Include="../../src/TaskbarHabitat.Widget/ViridianWater.cs" Link="ViridianWater.cs" />
+    <Compile Include="../../src/TaskbarHabitat.Widget/HabitatNavigation.cs" Link="HabitatNavigation.cs" />
+    <None Include="../../src/TaskbarHabitat.Widget/Assets/Habitats/ViridianAmpliada/navigation.json"
+          Link="viridian-navigation.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

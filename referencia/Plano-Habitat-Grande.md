@@ -2,7 +2,7 @@
 
 A opção B abre a Floresta de Viridian em uma janela grande após escolher o inicial ou carregar um save. Para reabrir a janela, clique no Pokémon da barra de tarefas e escolha **Abrir habitat**. O cenário mantém as proporções ao redimensionar ou maximizar a janela. [Como abrir o jogo](Plano-Tela-Inicial.md#abrir-no-windows) · [Janelas no Windows App SDK](https://learn.microsoft.com/en-us/windows/apps/develop/ui/windowing-overview)
 
-A paisagem é original, em pixel art com vista de três quartos inspirada em Stardew Valley. O Pokémon percorre uma trilha fixa e pausa na entrada da caverna, perto do rio e no gramado. [Captura no Windows 11](Habitat-Viridian-Windows11.png)
+A paisagem é original, em pixel art com vista de três quartos inspirada em Stardew Valley. O Pokémon percorre uma trilha fixa e pausa na entrada da caverna, perto do rio e no gramado.
 
 ## Verificação
 

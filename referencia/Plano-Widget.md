@@ -15,7 +15,7 @@ No Windows 11 build 26200, o widget apareceu dentro da barra após escolher Squi
 
 A versão atual usa Deskband11Lib.WinUI 1.5.0 e compila para Windows build 26100. A captura mostra o sprite estático. A recuperação após reiniciar o Explorer ainda precisa de validação.
 
-[Como abrir o jogo](Plano-Tela-Inicial.md#abrir-no-windows) · [Captura do teste](Widget-Windows11.png)
+[Como abrir o jogo](Plano-Tela-Inicial.md#abrir-no-windows)
 
 ## Próxima escolha
 
