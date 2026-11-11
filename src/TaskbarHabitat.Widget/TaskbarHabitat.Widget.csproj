@@ -22,4 +22,9 @@
     <Content Include="Assets/Habitats/ViridianAmpliada/*" CopyToOutputDirectory="PreserveNewest" />
     <Content Update="Assets/Habitats/*.svg" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+
+  <!-- shortcut: unpackaged WinUI publish omits the app PRI (WindowsAppSDK#6720). Remove when the SDK publishes it. -->
+  <Target Name="PublishWinUIResourceIndex" AfterTargets="Publish" Condition="'$(WindowsPackageType)' == 'None'">
+    <Copy SourceFiles="$(TargetDir)$(AssemblyName).pri" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" />
+  </Target>
 </Project>

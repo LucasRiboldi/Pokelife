@@ -19,6 +19,10 @@ pwsh -NoProfile -File tests/Test-WindowsLifecycle.ps1
 
 O último comando usa PowerShell 7, exige que o PokeLife esteja fechado e abre janelas de teste. Ele cria um save em `%TEMP%` por meio de `POKELIFE_SAVE_DIRECTORY`. O GitHub Actions executa a compilação e os testes sem interface.
 
+## Publicar uma versão
+
+Quando houver um pedido de deploy, execute o workflow [Release PokeLife](https://github.com/LucasRiboldi/Pokelife/actions/workflows/release.yml) com **Run workflow** na `main`, ou rode `gh workflow run release.yml --ref main`. O workflow compila, roda os testes e publica o ZIP para Windows 11 x64 na página de Releases. A primeira versão é `v0.1.0`. Cada deploy seguinte incrementa o último número, como de `v0.1.0` para `v0.1.1`.
+
 ## Editar o habitat
 
 O [guia de navegação](referencia/Plano-Navegacao-Habitat.md) explica o mapa do Tiled, as colisões e os destinos. Python com Pillow é necessário para regerar as imagens e a grade. Inclua os arquivos de origem e as saídas usadas pelo jogo quando mudar o terreno ou as rotas.

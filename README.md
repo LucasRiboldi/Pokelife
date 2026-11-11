@@ -16,6 +16,10 @@ O objetivo é ter uma criatura que ganha experiência e evolui com o tempo. Alim
 
 ## Rodar no Windows
 
+Para jogar, [baixe o ZIP na versão mais recente](https://github.com/LucasRiboldi/Pokelife/releases/latest), extraia todos os arquivos e abra `TaskbarHabitat.Widget.exe`. O pacote é para **Windows 11 x64** e inclui os runtimes do .NET e do Windows App SDK.
+
+### Compilar a partir do código
+
 Você precisa de **Windows 11 x64**, **Git** e do **SDK do .NET 10** compatível com [global.json](global.json). Execute no PowerShell.
 
 ```powershell
