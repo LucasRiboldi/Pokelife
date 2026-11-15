@@ -16,6 +16,8 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.6.5" />
     <ProjectReference Include="../TaskbarHabitat.Data/TaskbarHabitat.Data.csproj" />
     <Content Include="Assets/Sprites/*.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="Assets/Window/habitat-frame.png"
+             CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="Assets/Habitats/*.png" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="Assets/Habitats/Viridian/*.png" CopyToOutputDirectory="PreserveNewest" />
     <Content Update="Assets/Habitats/Viridian/layout.json" CopyToOutputDirectory="PreserveNewest" />

@@ -1,0 +1,20 @@
+<UserControl
+    x:Class="TaskbarHabitat.Widget.HabitatFrame"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+    KeyboardAcceleratorPlacementMode="Hidden">
+    <Viewbox Stretch="Uniform">
+        <Grid Width="307" Height="288">
+            <Border x:Name="DragSurface" Background="Transparent"
+                    PointerPressed="OnDragPressed" PointerMoved="OnDragMoved"
+                    PointerReleased="OnDragReleased" PointerCanceled="OnDragEnded"
+                    PointerCaptureLost="OnDragEnded" />
+
+            <Grid x:Name="HabitatViewport" Margin="13,14,43,23" />
+
+            <Image Source="ms-appx:///Assets/Window/habitat-frame.png"
+                   Stretch="Fill" IsHitTestVisible="False" />
+        </Grid>
+    </Viewbox>
+</UserControl>

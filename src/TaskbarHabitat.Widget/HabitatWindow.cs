@@ -132,7 +132,7 @@ internal sealed class HabitatWindow : Window
         camera = new Canvas
         {
             Width = Math.Min(768, navigation.Width),
-            Height = Math.Min(432, navigation.Height),
+            Height = Math.Min(768, navigation.Height),
             Children = { scene, nameplate }
         };
         camera.Clip = new RectangleGeometry { Rect = new Rect(0, 0, camera.Width, camera.Height) };
@@ -144,18 +144,41 @@ internal sealed class HabitatWindow : Window
                 ? Visibility.Collapsed : Visibility.Visible;
             args.Handled = true;
         };
-        var root = new Grid
+        var frame = new HabitatFrame { IsTabStop = true };
+        frame.Loaded += (_, _) => frame.Focus(FocusState.Programmatic);
+        var root = frame.Viewport;
+        root.Background = new SolidColorBrush(ColorHelper.FromArgb(255, 25, 42, 32));
+        root.Children.Add(new Viewbox { Child = camera, Stretch = Stretch.Uniform });
+        frame.KeyboardAccelerators.Add(toggleGrid);
+        root.SizeChanged += (_, args) =>
         {
-            Background = new SolidColorBrush(ColorHelper.FromArgb(255, 25, 42, 32)),
-            Children = { new Viewbox { Child = camera, Stretch = Stretch.Uniform } }
+            double width = args.NewSize.Width;
+            double height = args.NewSize.Height;
+            if (width <= 0 || height <= 0)
+                return;
+
+            double scale = Math.Max(Math.Max(width / scene.Width, height / scene.Height),
+                Math.Max(width, height) / 768);
+            camera.Width = Math.Min(width / scale, scene.Width);
+            camera.Height = Math.Min(height / scale, scene.Height);
+            ((RectangleGeometry)camera.Clip).Rect = new Rect(0, 0, camera.Width, camera.Height);
+            cameraX = Math.Clamp(cameraX, 0, scene.Width - camera.Width);
+            cameraY = Math.Clamp(cameraY, 0, scene.Height - camera.Height);
+            FollowCreature(1);
         };
-        root.KeyboardAccelerators.Add(toggleGrid);
-        Content = root;
+        Content = frame;
+
+        var presenter = (OverlappedPresenter)AppWindow.Presenter;
+        presenter.IsMaximizable = false;
+        presenter.IsResizable = false;
+        presenter.SetBorderAndTitleBar(false, false);
 
         var area = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary).WorkArea;
+        int initialSize = Math.Min(area.Width, area.Height) * 5 / 12;
         AppWindow.MoveAndResize(new RectInt32(
-            area.X + area.Width / 12, area.Y + area.Height / 12,
-            area.Width * 5 / 6, area.Height * 5 / 6));
+            area.X + (area.Width - initialSize) / 2, area.Y + (area.Height - initialSize) / 2,
+            initialSize, initialSize));
+        frame.Attach(this);
 
         activity.Text = $"{starterName} · Caminhando";
         currentCell = navigation.Spawn;
